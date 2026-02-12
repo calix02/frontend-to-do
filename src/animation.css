@@ -14,6 +14,9 @@
 .fade-left{
     animation: fadeLeft 0.75s ease forwards;
 }
+.fade-right{
+    animation: fadeRight 0.75s ease forwards;
+}
 @keyframes fadeLeft {
     from{
         opacity: 0;
@@ -21,7 +24,17 @@
     }
     to{
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
+    }
+}
+@keyframes fadeRight {
+    from{
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);
     }
 }
 @keyframes fadeDown {

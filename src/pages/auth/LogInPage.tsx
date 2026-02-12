@@ -1,9 +1,14 @@
-import AppLogo from "@/assets/app-logo.svg";
+// Libraries
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+// Components
 import { FaRegEnvelope } from "react-icons/fa";
 import { MdOutlineLock } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
-import AuthenticatedModal from "../components/AuthenticatedModal";
+import AuthenticatedModal from "./components/AuthenticatedModal";
+
+// Assets
+import AppLogo from "@/assets/app-logo.svg";
 
 function LogInPage() {
   const navigate = useNavigate();
@@ -11,9 +16,10 @@ function LogInPage() {
 
   useEffect(() => {
     if (valid) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         navigate("/dashboard");
       }, 3000);
+      return () => clearTimeout(timer);
     }
   });
 

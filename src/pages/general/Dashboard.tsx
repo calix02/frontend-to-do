@@ -1,7 +1,13 @@
+// Css
 import "@/animation.css";
+
+// Libraries
 import { useState } from "react";
+
+// Components
 import DashboardCard from "./components/DashboardCard";
 import Header from "./components/Header";
+
 function Dashboard() {
   const [showMenu, setShowMenu] = useState(false);
   const handleMenu = () => {

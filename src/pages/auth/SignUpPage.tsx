@@ -1,7 +1,13 @@
+// Libraries
+import { Link } from "react-router-dom";
+
+// Assets
 import AppLogo from "@/assets/app-logo.svg";
+
+// Icons
 import { FaRegEnvelope, FaRegUser } from "react-icons/fa";
 import { MdOutlineLock } from "react-icons/md";
-import { Link } from "react-router-dom";
+
 function RegiterForm() {
   return (
     <div className="w-screen mt-5 px-5">

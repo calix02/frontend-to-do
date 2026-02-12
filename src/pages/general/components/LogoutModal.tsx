@@ -1,5 +1,6 @@
+// Assets
 import AppLogo from "@/assets/app-logo.svg";
-function AuthenticatedModal() {
+function LogoutModal() {
   return (
     <div className="bg-[#0000006e] fade-in inset-0 flex justify-center fixed  z-30 items-center">
       <div className="w-70 h-50 rounded-md shadow-md bg-white flex flex-col justify-center relative items-center">
@@ -9,10 +10,10 @@ function AuthenticatedModal() {
           alt="App Logo"
         />
         <h1 className="playfair-bold text-3xl z-10 mt-13">App To Do</h1>
-        <p className="poppins-regular">Please wait...</p>
-        <div className="w-7 animate-spin  h-7 rounded-full border-t-[#A5491B] border-gray-500 border-3 "></div>
+        <p className="poppins-regular mt-3 text-sm">Signing out...</p>
+        <div className="w-7 animate-spin mt-1  h-7 rounded-full border-t-[#A5491B] border-gray-500 border-3 "></div>
       </div>
     </div>
   );
 }
-export default AuthenticatedModal;
+export default LogoutModal;

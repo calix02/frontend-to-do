@@ -1,5 +1,8 @@
-import "../animation.css";
-import AppLogo from "../assets/app-logo.svg";
+// Css
+import "@/animation.css";
+// Assets
+import AppLogo from "@/assets/app-logo.svg";
+
 function SplashScreen() {
   return (
     <div className="w-screen h-screen relative bg-linear-to-br from-[#FFFFFF] to-[#FFE7B4] flex  justify-center items-center">

@@ -1,8 +1,16 @@
+// Css
+import "@/animation.css";
+
+// Libraries
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../animation.css";
-import AppLogo from "../assets/app-logo.svg";
+
+// Assests
+import AppLogo from "@/assets/app-logo.svg";
+
+// Splash Screen
 import SplashScreen from "./SplashScreen";
+
 function LandingPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
