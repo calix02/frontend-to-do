@@ -6,7 +6,7 @@ import DashboardCard from "./components/DashboardCard";
 import Header from "./components/Header";
 
 function Dashboard() {
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };

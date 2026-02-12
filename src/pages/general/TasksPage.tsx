@@ -13,16 +13,22 @@ import { MdAdd } from "react-icons/md";
 import { MdOutlineAccessTime } from "react-icons/md";
 
 function CompletedContent() {
+  type Task = {
+    task: string;
+    date: string;
+  };
+  const tasks: Task[] = [
+    {
+      task: "Take a 15–20 minute walk around your neighborhood  Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus vero doloribus, ratione voluptatibus eveniet sunt, perspiciatis cumque labore fugiat molestias, harum necessitatibus dignissimos ea quis sit quia aut ullam assumenda..",
+      date: "02/10/2026",
+    },
+   
+  ];
   return (
     <div className="w-full flex flex-col gap-3 fade-up">
-      <CompletedTask
-        task="Lorem ipsum dolor sit amet, consectetur adipiscing elibt, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        date="02/13/2026"
-      />
-      <CompletedTask
-        task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        date="02/13/2026"
-      />
+      {tasks.map((t, id) => (
+        <CompletedTask key={id} task={t.task} date={t.date} />
+      ))}
     </div>
   );
 }
@@ -46,10 +52,10 @@ function InProgressContent() {
 }
 
 function Tasks() {
-  const [showCompleted, setShowCompleted] = useState(true);
-  const [showInProgress, setInProgress] = useState(false);
+  const [showCompleted, setShowCompleted] = useState<boolean>(true);
+  const [showInProgress, setInProgress] = useState<boolean>(false);
 
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };

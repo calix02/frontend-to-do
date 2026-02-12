@@ -52,18 +52,18 @@ function LogInPage() {
                 <div className="relative">
                   <FaRegEnvelope className="absolute left-2 top-1/2 text-lg -translate-y-1/2" />
                   <input
-                    type="text"
-                    className="peer focus:outline-none focus:ring-0 border-b px-8 py-3 active:border-0 active:outline-0  border-black w-full"
+                    type="email"
+                    className="peer border-b px-8 py-3 focus:outline-none focus:ring-0 border-black w-full"
                     placeholder=""
                     required
                   />
                    <label
                   className="absolute left-8 top-1/2 -translate-y-1/2 text-gray-500
                transition-all duration-200
-               peer-focus:top-1 peer-focus:text-sm peer-focus:text-gray-600
-               peer-valid:top-1 peer-valid:text-sm"
+               peer-focus:top-1 peer-valid:top-1 peer-valid:text-sm peer-focus:text-sm peer-focus:text-gray-600
+                " 
                 >
-                  Username
+                  Email
                 </label>
                 </div>
                 <div className="relative mt-5">
@@ -71,7 +71,7 @@ function LogInPage() {
 
                   <input
                     type="password"
-                    className="peer border-b px-8 py-3 focus:outline-none focus:ring-0   border-black w-full"
+                    className="peer border-b px-8 py-3 focus:outline-none focus:ring-0 border-black w-full"
                     placeholder=""
                     required
                   />

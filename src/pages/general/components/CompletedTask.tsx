@@ -8,7 +8,7 @@ type TaskProps = {
 };
 function CompletedTask({ task, date }: TaskProps) {
   return (
-    <div className="w-full h-40 rounded-2xl border border-[#e0e0e0] shadow-md relative flex justify-center items-center">
+    <div className="w-full min-h-40 pb-2 rounded-2xl border border-[#e0e0e0] shadow-md relative flex justify-center items-center">
       <span className="absolute top-3 right-10 poppins-regular text-xs text-gray-500">
         {date}
       </span>
@@ -17,7 +17,7 @@ function CompletedTask({ task, date }: TaskProps) {
         <FaCheck />
         Completed
       </p>
-      <p className="poppins-regular text-[#242423] text-sm px-3">{task}</p>
+      <p className="poppins-regular text-[#242423] text-sm px-3 indent-3">{task}</p>
     </div>
   );
 }
