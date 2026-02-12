@@ -1,6 +1,3 @@
-// Css
-import "@/animation.css";
-
 // Libraries
 import { useEffect, useState } from "react";
 

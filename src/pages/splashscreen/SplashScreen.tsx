@@ -1,5 +1,3 @@
-// Css
-import "@/animation.css";
 // Assets
 import AppLogo from "@/assets/app-logo.svg";
 

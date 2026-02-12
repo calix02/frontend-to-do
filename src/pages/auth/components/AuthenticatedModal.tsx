@@ -1,5 +1,6 @@
 // Assets
 import AppLogo from "@/assets/app-logo.svg";
+
 function AuthenticatedModal() {
   return (
     <div className="bg-[#0000006e] fade-in inset-0 flex justify-center fixed  z-30 items-center">

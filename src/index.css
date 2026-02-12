@@ -1,23 +1,5 @@
 @import "tailwindcss";
 
-.poppins-thin {
-  font-family: "Poppins", sans-serif;
-  font-weight: 100;
-  font-style: normal;
-}
-
-.poppins-extralight {
-  font-family: "Poppins", sans-serif;
-  font-weight: 200;
-  font-style: normal;
-}
-
-.poppins-light {
-  font-family: "Poppins", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
 .poppins-regular {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
@@ -42,72 +24,6 @@
   font-style: normal;
 }
 
-.poppins-extrabold {
-  font-family: "Poppins", sans-serif;
-  font-weight: 800;
-  font-style: normal;
-}
-
-.poppins-black {
-  font-family: "Poppins", sans-serif;
-  font-weight: 900;
-  font-style: normal;
-}
-
-.poppins-thin-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 100;
-  font-style: italic;
-}
-
-.poppins-extralight-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 200;
-  font-style: italic;
-}
-
-.poppins-light-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.poppins-regular-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.poppins-medium-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-style: italic;
-}
-
-.poppins-semibold-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.poppins-bold-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.poppins-extrabold-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 800;
-  font-style: italic;
-}
-
-.poppins-black-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 900;
-  font-style: italic;
-}
-
 
 .playfair-regular{
   font-family: "Playfair", serif;
@@ -127,4 +43,95 @@
 }
 .border-design{
   border-radius: 3px 6px 3px 6px;
+}
+/*To hide the browser built-in visibility eye in password field*/
+input[type="password"]::-ms-reveal {
+  display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  display: none !important;
+  pointer-events: none;
+}
+
+/*Animations*/
+.fade-down{
+    animation: fadeDown 0.75s ease forwards;
+}
+.fade-up{
+    animation: fadeUp 0.75s ease forwards;
+}
+.fade-in{
+    animation: fadeIn 0.75s ease forwards;
+}
+.fade-out{
+    animation: fadeOut 6s ease forwards;
+}
+.fade-left{
+    animation: fadeLeft 0.75s ease forwards;
+}
+.fade-right{
+    animation: fadeRight 0.75s ease forwards;
+}
+@keyframes fadeLeft {
+    from{
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes fadeRight {
+    from{
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes fadeDown {
+    from{
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes fadeUp {
+    from{
+        opacity: 0;
+        transform: translateY(100px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from{
+        opacity: 0;
+        scale: 110%;
+    }
+    to{
+        opacity: 1;
+        scale: 100%;
+    }
+}
+@keyframes fadeOut {
+    from{
+        opacity: 1;
+        scale: 100%;
+    }
+    to{
+        opacity: 0;
+        scale: 1120%;
+    }
 }

@@ -14,6 +14,10 @@ function LogInPage() {
   const navigate = useNavigate();
   const [valid, setValid] = useState(false);
 
+  const handleLogIn = () =>{
+    setValid(true);
+  }
+
   useEffect(() => {
     if (valid) {
       const timer = setTimeout(() => {
@@ -40,23 +44,45 @@ function LogInPage() {
           <div className="w-screen mt-5 px-5">
             <div className="bg-[#ffffff25] fade-in backdrop-blur-xl w-full rounded-xl pt-5 shadow-md h-80 z-10">
               <h1 className="poppins-regular text-2xl text-center">Log In</h1>
-              <div className="w-full px-8 mt-8">
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                handleLogIn();
+                }} 
+                className="w-full px-8 mt-8">
                 <div className="relative">
                   <FaRegEnvelope className="absolute left-2 top-1/2 text-lg -translate-y-1/2" />
                   <input
                     type="text"
-                    className="border-b px-8 py-2 active:border-0 active:outline-0  border-black w-full"
-                    placeholder="Username"
+                    className="peer focus:outline-none focus:ring-0 border-b px-8 py-3 active:border-0 active:outline-0  border-black w-full"
+                    placeholder=""
+                    required
                   />
+                   <label
+                  className="absolute left-8 top-1/2 -translate-y-1/2 text-gray-500
+               transition-all duration-200
+               peer-focus:top-1 peer-focus:text-sm peer-focus:text-gray-600
+               peer-valid:top-1 peer-valid:text-sm"
+                >
+                  Username
+                </label>
                 </div>
                 <div className="relative mt-5">
                   <MdOutlineLock className="absolute left-2 top-1/2 text-xl -translate-y-1/2" />
 
                   <input
                     type="password"
-                    className="border-b px-8 py-2 active:border-0 active:outline-0  border-black w-full"
-                    placeholder="Password"
+                    className="peer border-b px-8 py-3 focus:outline-none focus:ring-0   border-black w-full"
+                    placeholder=""
+                    required
                   />
+                   <label
+                  className="absolute left-8 top-1/2 -translate-y-1/2 text-gray-500
+               transition-all duration-200
+               peer-focus:top-1 peer-focus:text-sm peer-focus:text-gray-600
+               peer-valid:top-1 peer-valid:text-sm"
+                >
+                  Password
+                </label>
                 </div>
 
                 <div className="mt-5 poppins-regular flex justify-between">
@@ -71,13 +97,13 @@ function LogInPage() {
 
                 <div className="mt-5">
                   <button
-                    onClick={() => setValid(true)}
+                    type="submit"
                     className="w-full h-12 bg-[#A5491B] rounded-lg poppins-semibold text-white"
                   >
                     Log In
                   </button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
 
