@@ -7,6 +7,7 @@ import SignUpPage from "./pages/auth/SignUpPage";
 import Dashboard from "./pages/general/Dashboard";
 import Tasks from "./pages/general/TasksPage";
 import LandingPage from "./pages/splashscreen/LandingPage";
+import { Toaster } from "react-hot-toast";
 function App() {
   const router = createBrowserRouter([
     {
@@ -31,7 +32,12 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <div>
+      <RouterProvider router={router} />
+      <Toaster position="top-center" />
+    </div>
+  );
 }
 
 export default App;

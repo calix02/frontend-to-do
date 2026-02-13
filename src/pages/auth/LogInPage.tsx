@@ -1,6 +1,9 @@
 // Libraries
-import { useEffect, useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
+// Store
+import { useAuthStore } from "@/stores/auth/auth.store";
 
 // Components
 import { FaRegEnvelope } from "react-icons/fa";
@@ -9,27 +12,34 @@ import AuthenticatedModal from "./components/AuthenticatedModal";
 
 // Assets
 import AppLogo from "@/assets/app-logo.svg";
+import type { AccountType } from "@/types/account/account.type";
 
 function LogInPage() {
-  const navigate = useNavigate();
-  const [valid, setValid] = useState(false);
+  const loading = useAuthStore((state) => state.loading);
+  const setLogin = useAuthStore((state) => state.setLogin);
 
-  const handleLogIn = () =>{
-    setValid(true);
-  }
-
-  useEffect(() => {
-    if (valid) {
-      const timer = setTimeout(() => {
-        navigate("/dashboard");
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
+  const [form, setForm] = useState<Partial<AccountType>>({
+    email: "",
+    password: "",
   });
+
+  const navigate = useNavigate();
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const submitForm = async (e: FormEvent) => {
+    e.preventDefault();
+    const success = await setLogin(form);
+    if (success) {
+      navigate("/dashboard");
+    }
+  };
 
   return (
     <>
-      {valid && <AuthenticatedModal />}
+      {loading && <AuthenticatedModal />}
 
       <div className="w-screen h-screen bg-linear-to-br from-[#FFFFFF] to-[#FFE7B4] flex  justify-center items-center relative">
         <img
@@ -44,45 +54,45 @@ function LogInPage() {
           <div className="w-screen mt-5 px-5">
             <div className="bg-[#ffffff25] fade-in backdrop-blur-xl w-full rounded-xl pt-5 shadow-md h-80 z-10">
               <h1 className="poppins-regular text-2xl text-center">Log In</h1>
-              <form onSubmit={(e) => {
-                e.preventDefault();
-                handleLogIn();
-                }} 
-                className="w-full px-8 mt-8">
+              <form onSubmit={submitForm} className="w-full px-8 mt-8">
                 <div className="relative">
                   <FaRegEnvelope className="absolute left-2 top-1/2 text-lg -translate-y-1/2" />
                   <input
                     type="email"
+                    name="email"
+                    onChange={handleChange}
                     className="peer border-b px-8 py-3 focus:outline-none focus:ring-0 border-black w-full"
                     placeholder=""
                     required
                   />
-                   <label
-                  className="absolute left-8 top-1/2 -translate-y-1/2 text-gray-500
+                  <label
+                    className="absolute left-8 top-1/2 -translate-y-1/2 text-gray-500
                transition-all duration-200
                peer-focus:top-1 peer-valid:top-1 peer-valid:text-sm peer-focus:text-sm peer-focus:text-gray-600
-                " 
-                >
-                  Email
-                </label>
+                "
+                  >
+                    Email
+                  </label>
                 </div>
                 <div className="relative mt-5">
                   <MdOutlineLock className="absolute left-2 top-1/2 text-xl -translate-y-1/2" />
 
                   <input
                     type="password"
+                    name="password"
+                    onChange={handleChange}
                     className="peer border-b px-8 py-3 focus:outline-none focus:ring-0 border-black w-full"
                     placeholder=""
                     required
                   />
-                   <label
-                  className="absolute left-8 top-1/2 -translate-y-1/2 text-gray-500
+                  <label
+                    className="absolute left-8 top-1/2 -translate-y-1/2 text-gray-500
                transition-all duration-200
                peer-focus:top-1 peer-focus:text-sm peer-focus:text-gray-600
                peer-valid:top-1 peer-valid:text-sm"
-                >
-                  Password
-                </label>
+                  >
+                    Password
+                  </label>
                 </div>
 
                 <div className="mt-5 poppins-regular flex justify-between">
@@ -97,10 +107,11 @@ function LogInPage() {
 
                 <div className="mt-5">
                   <button
+                    disabled={loading}
                     type="submit"
                     className="w-full h-12 bg-[#A5491B] rounded-lg poppins-semibold text-white"
                   >
-                    Log In
+                    {loading ? "Loading..." : "Log In"}
                   </button>
                 </div>
               </form>
