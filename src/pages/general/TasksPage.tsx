@@ -5,6 +5,7 @@ import { useState } from "react";
 import CompletedTask from "./components/CompletedTask";
 import Header from "./components/Header";
 import InProgressTask from "./components/InProgressTask";
+import NotStartedTask from "./components/NotStartedTask";
 
 // Icons
 import { FaCheck } from "react-icons/fa6";
@@ -19,10 +20,9 @@ function CompletedContent() {
   };
   const tasks: Task[] = [
     {
-      task: "Take a 15–20 minute walk around your neighborhood  Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus vero doloribus, ratione voluptatibus eveniet sunt, perspiciatis cumque labore fugiat molestias, harum necessitatibus dignissimos ea quis sit quia aut ullam assumenda..",
+      task: "Take a  ratione voluptatibus eveniet sunt, perspiciatis cumque labore fugiat molestias, harum necessitatibus dignissimos ea quis sit quia aut ullam assumenda..",
       date: "02/10/2026",
     },
-   
   ];
   return (
     <div className="w-full flex flex-col gap-3 fade-up">
@@ -50,23 +50,49 @@ function InProgressContent() {
     </div>
   );
 }
+function NotStartedContent() {
+  return (
+    <div className="w-full flex flex-col gap-3 fade-up">
+      <NotStartedTask
+        task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        date="02/13/2026"
+      />
+      <NotStartedTask
+        task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        date="02/13/2026"
+      />
+      <NotStartedTask
+        task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        date="02/13/2026"
+      />
+    </div>
+  );
+}
 
 function Tasks() {
   const [showCompleted, setShowCompleted] = useState<boolean>(true);
   const [showInProgress, setInProgress] = useState<boolean>(false);
+  const [showNotStarted, setShowNotStarted] = useState<boolean>(false);
 
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };
 
-  const clickedInProgress = () => {
+  const handleInProgress = () => {
     setShowCompleted(false);
+    setShowNotStarted(false);
     setInProgress(true);
   };
-  const clickedCompleted = () => {
+  const handleCompleted = () => {
     setShowCompleted(true);
     setInProgress(false);
+    setShowNotStarted(false);
+  };
+  const handleNotStarted = () => {
+    setShowCompleted(false);
+    setInProgress(false);
+    setShowNotStarted(true);
   };
 
   return (
@@ -85,20 +111,23 @@ function Tasks() {
           </div>
           <div className="mt-3 fade-in poppins-semibold text-sm flex gap-3">
             <button
-              onClick={clickedCompleted}
+              onClick={handleCompleted}
               className="flex items-center border-design justify-center gap-1  px-2 py-1 border shadow-md bg-[#3DC64540]"
             >
               <FaCheck />
               Completed
             </button>
             <button
-              onClick={clickedInProgress}
+              onClick={handleInProgress}
               className="flex items-center justify-center gap-1 border px-2 py-1 border-design shadow-md bg-white"
             >
               <MdOutlineAccessTime />
               In Progress
             </button>
-            <button className="flex items-center justify-center gap-1 border px-2 py-1 border-design shadow-md bg-white">
+            <button
+              onClick={handleNotStarted}
+              className="flex items-center justify-center gap-1 border px-2 py-1 border-design shadow-md bg-white"
+            >
               <FaCheck />
               Not Started
             </button>
@@ -107,6 +136,7 @@ function Tasks() {
           <div className="mt-5 flex flex-col items-center gap-3">
             {showCompleted && CompletedContent()}
             {showInProgress && InProgressContent()}
+            {showNotStarted && NotStartedContent()}
           </div>
         </div>
       </div>
