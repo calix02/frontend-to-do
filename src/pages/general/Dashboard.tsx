@@ -17,7 +17,7 @@ function Dashboard() {
         <h1 className="poppins-semibold fade-left text-xl text-[#242423]">
           Welcome Mark Alvarado!
         </h1>
-        <div className="mt-5 fade-in flex flex-col items-center gap-3">
+        <div className="mt-5 fade-in grid grid-cols-2 items-center gap-3">
           <DashboardCard
             color="bg-[#FF813D40]"
             title="Total Tasks"

@@ -36,7 +36,7 @@ function RegiterForm() {
     e.preventDefault();
     console.log("Form: ", form);
     if (form.password !== form.confirm) {
-      return toast.error("Hindi equal and password");
+      return toast.error("Confirm password is not equal to password");
     }
     const success = await setRegister(form);
     if (success) {

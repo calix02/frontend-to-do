@@ -104,7 +104,9 @@ function Tasks() {
             <h1 className="poppins-semibold fade-left text-xl text-[#242423]">
               Manage your Task!
             </h1>
-            <button className="flex items-center fade-right gap-1 bg-[#3DC64540] w-30 h-8 justify-center poppins-semibold text-sm rounded-md">
+            <button
+              className={`flex items-center fade-right gap-1 bg-[#3DC64540]   w-30 h-8 justify-center poppins-semibold text-sm rounded-md`}
+            >
               <MdAdd />
               Add Task
             </button>

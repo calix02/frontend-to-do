@@ -6,7 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/stores/auth/auth.store";
 
 // Components
-import { FaRegEnvelope } from "react-icons/fa";
+import { FaEyeSlash, FaRegEnvelope } from "react-icons/fa";
+import { IoEyeSharp } from "react-icons/io5";
 import { MdOutlineLock } from "react-icons/md";
 import AuthenticatedModal from "./components/AuthenticatedModal";
 
@@ -17,6 +18,7 @@ import type { AccountType } from "@/types/account/account.type";
 function LogInPage() {
   const loading = useAuthStore((state) => state.loading);
   const setLogin = useAuthStore((state) => state.setLogin);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const [form, setForm] = useState<Partial<AccountType>>({
     email: "",
@@ -35,6 +37,9 @@ function LogInPage() {
     if (success) {
       navigate("/dashboard");
     }
+  };
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -76,9 +81,16 @@ function LogInPage() {
                 </div>
                 <div className="relative mt-5">
                   <MdOutlineLock className="absolute left-2 top-1/2 text-xl -translate-y-1/2" />
+                  <button
+                    type="button"
+                    onClick={handleShowPassword}
+                    className="absolute right-2 top-1/2 transition duration-300 -translate-y-1/2"
+                  >
+                    {showPassword ? <FaEyeSlash /> : <IoEyeSharp />}
+                  </button>
 
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     onChange={handleChange}
                     className="peer border-b px-8 py-3 focus:outline-none focus:ring-0 border-black w-full"
