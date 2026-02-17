@@ -2,12 +2,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 
 // Pages
+import { Toaster } from "react-hot-toast";
 import LogInPage from "./pages/auth/LogInPage";
 import SignUpPage from "./pages/auth/SignUpPage";
 import Dashboard from "./pages/general/Dashboard";
 import Tasks from "./pages/general/TasksPage";
 import LandingPage from "./pages/splashscreen/LandingPage";
-import { Toaster } from "react-hot-toast";
 function App() {
   const router = createBrowserRouter([
     {

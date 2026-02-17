@@ -7,8 +7,9 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 type TaskProps = {
   task: string;
   date: string;
+  handleUpdate: () => void;
 };
-function CompletedTask({ task, date }: TaskProps) {
+function InProgressTask({ task, date, handleUpdate }: TaskProps) {
   return (
     <div className="w-full min-h-40 pb-5 rounded-2xl px-3 border border-[#e0e0e0] py-2 shadow-md relative flex flex-col justify-center ">
       <div className="flex justify-between">
@@ -32,7 +33,10 @@ function CompletedTask({ task, date }: TaskProps) {
           <FaCheck className="text-[#3DC645] text-xl" />
           Complete
         </button>
-        <button className="w-full h-10 flex gap-2 items-center justify-center border-design bg-[#3D9DC635]">
+        <button
+          onClick={handleUpdate}
+          className="w-full h-10 flex gap-2 items-center justify-center border-design bg-[#3D9DC635]"
+        >
           <FaEdit className="text-[#0D4861] text-xl" />
           <span>Update</span>
         </button>
@@ -40,4 +44,4 @@ function CompletedTask({ task, date }: TaskProps) {
     </div>
   );
 }
-export default CompletedTask;
+export default InProgressTask;

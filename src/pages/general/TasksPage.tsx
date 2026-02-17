@@ -2,14 +2,16 @@
 import { useState } from "react";
 
 // Components
+import AddTaskModal from "./components/AddTaskModal";
 import CompletedTask from "./components/CompletedTask";
 import Header from "./components/Header";
 import InProgressTask from "./components/InProgressTask";
 import NotStartedTask from "./components/NotStartedTask";
+import UpdateTaskModal from "./components/UpdateTaskModal";
 
 // Icons
 import { FaCheck } from "react-icons/fa6";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdOutlineAssignment } from "react-icons/md";
 
 import { MdOutlineAccessTime } from "react-icons/md";
 
@@ -32,24 +34,7 @@ function CompletedContent() {
     </div>
   );
 }
-function InProgressContent() {
-  return (
-    <div className="w-full flex flex-col gap-3 fade-up">
-      <InProgressTask
-        task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        date="02/13/2026"
-      />
-      <InProgressTask
-        task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        date="02/13/2026"
-      />
-      <InProgressTask
-        task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        date="02/13/2026"
-      />
-    </div>
-  );
-}
+
 function NotStartedContent() {
   return (
     <div className="w-full flex flex-col gap-3 fade-up">
@@ -73,8 +58,12 @@ function Tasks() {
   const [showCompleted, setShowCompleted] = useState<boolean>(true);
   const [showInProgress, setInProgress] = useState<boolean>(false);
   const [showNotStarted, setShowNotStarted] = useState<boolean>(false);
-
+  const [addTask, setAddTask] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [updateTask, setUpdateTask] = useState<boolean>(false);
+  const handleUpdate = () => {
+    setUpdateTask(true);
+  };
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -94,10 +83,19 @@ function Tasks() {
     setInProgress(false);
     setShowNotStarted(true);
   };
+  const handleAddTask = () => {
+    setAddTask(true);
+  };
+  const handleClose = () => {
+    setAddTask(false);
+  };
 
   return (
     <>
       <div className="w-screen h-screen  bg-white">
+        {addTask && <AddTaskModal handleClose={handleClose} />}
+        {updateTask && <UpdateTaskModal handleClose={handleClose} />}
+
         <Header toggle={handleMenu} showMenu={showMenu} />
         <div className="mt-25 w-full pt-8 px-5">
           <div className="flex justify-between">
@@ -105,6 +103,7 @@ function Tasks() {
               Manage your Task!
             </h1>
             <button
+              onClick={handleAddTask}
               className={`flex items-center fade-right gap-1 bg-[#3DC64540]   w-30 h-8 justify-center poppins-semibold text-sm rounded-md`}
             >
               <MdAdd />
@@ -114,30 +113,38 @@ function Tasks() {
           <div className="mt-3 fade-in poppins-semibold text-sm flex gap-3">
             <button
               onClick={handleCompleted}
-              className="flex items-center border-design justify-center gap-1  px-2 py-1 border shadow-md bg-[#3DC64540]"
+              className={`flex items-center border-design justify-center gap-1  px-2 py-1 border shadow-md ${showCompleted ? "bg-[#3DC64540]" : "bg-white"} `}
             >
               <FaCheck />
               Completed
             </button>
             <button
               onClick={handleInProgress}
-              className="flex items-center justify-center gap-1 border px-2 py-1 border-design shadow-md bg-white"
+              className={`flex items-center justify-center gap-1 border px-2 py-1 border-design shadow-md ${showInProgress ? "bg-[#FF813D40]" : "bg-white"}`}
             >
               <MdOutlineAccessTime />
               In Progress
             </button>
             <button
               onClick={handleNotStarted}
-              className="flex items-center justify-center gap-1 border px-2 py-1 border-design shadow-md bg-white"
+              className={`flex items-center justify-center gap-1 border px-2 py-1 border-design shadow-md ${showNotStarted ? "bg-[#E3525240]" : "bg-white"}`}
             >
-              <FaCheck />
+              <MdOutlineAssignment />
               Not Started
             </button>
           </div>
 
           <div className="mt-5 flex flex-col items-center gap-3">
             {showCompleted && CompletedContent()}
-            {showInProgress && InProgressContent()}
+            {showInProgress && (
+              <div className="w-full flex flex-col gap-3 fade-up">
+                <InProgressTask
+                  handleUpdate={handleUpdate}
+                  task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                  date="02/13/2026"
+                />
+              </div>
+            )}
             {showNotStarted && NotStartedContent()}
           </div>
         </div>
