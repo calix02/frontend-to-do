@@ -14,6 +14,7 @@ import { FaCheck } from "react-icons/fa6";
 import { MdAdd, MdOutlineAssignment } from "react-icons/md";
 
 import { MdOutlineAccessTime } from "react-icons/md";
+import { useAuthStore } from "@/stores/auth/auth.store";
 
 function CompletedContent() {
   type Task = {
@@ -37,7 +38,7 @@ function CompletedContent() {
 
 function NotStartedContent() {
   return (
-    <div className="w-full flex flex-col gap-3 fade-up">
+    <div className="w-full lg:grid lg:grid-cols-3 lg:gap-5 lg:px-10 flex flex-col gap-3 fade-up">
       <NotStartedTask
         task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         date="02/13/2026"
@@ -55,12 +56,14 @@ function NotStartedContent() {
 }
 
 function Tasks() {
-  const [showCompleted, setShowCompleted] = useState<boolean>(true);
+  const [showCompleted, setShowCompleted] = useState<boolean>(false);
   const [showInProgress, setInProgress] = useState<boolean>(false);
-  const [showNotStarted, setShowNotStarted] = useState<boolean>(false);
+  const [showNotStarted, setShowNotStarted] = useState<boolean>(true);
   const [addTask, setAddTask] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [updateTask, setUpdateTask] = useState<boolean>(false);
+    const user = useAuthStore((state) => state.user);
+  
   const handleUpdate = () => {
     setUpdateTask(true);
   };
@@ -100,9 +103,12 @@ function Tasks() {
         <div className="mt-25 w-full pt-8 px-5">
           <div className="flex justify-between">
             <h1 className="poppins-semibold fade-left text-xl text-[#242423]">
-              Manage your Task!
+              Welcome {user?.name}!
             </h1>
-            <button
+           
+          </div>
+          <div className="w-full flex justify-end px-5">
+             <button
               onClick={handleAddTask}
               className={`flex items-center fade-right gap-1 bg-[#3DC64540]   w-30 h-8 justify-center poppins-semibold text-sm rounded-md`}
             >

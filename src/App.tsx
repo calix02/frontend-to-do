@@ -5,7 +5,6 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import { Toaster } from "react-hot-toast";
 import LogInPage from "./pages/auth/LogInPage";
 import SignUpPage from "./pages/auth/SignUpPage";
-import Dashboard from "./pages/general/Dashboard";
 import Tasks from "./pages/general/TasksPage";
 import LandingPage from "./pages/splashscreen/LandingPage";
 import ProtectedRoute from "./pages/general/components/ProtectedRoute";
@@ -23,14 +22,7 @@ function App() {
       path: "/signup",
       Component: SignUpPage,
     },
-    {
-      path: "/dashboard",
-      Component: () =>(
-        <ProtectedRoute>
-          <Dashboard/>
-        </ProtectedRoute>
-      ), 
-    },
+   
     {
       path: "/tasks",
       Component: () =>(

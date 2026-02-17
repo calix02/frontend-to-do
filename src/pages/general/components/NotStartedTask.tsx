@@ -28,7 +28,7 @@ function NotStartedTask({ task, date }: TaskProps) {
         {task}
       </p>
       <div className="flex gap-3 mt-3 poppins-semibold text-sm">
-        <button className="w-full h-10 flex justify-center items-center gap-1 border-design bg-[#3DC64535]">
+        <button className="w-full  h-10 flex justify-center items-center gap-1 border-design bg-[#3DC64535]">
           <FaCheck className="text-[#3DC645] text-xl" />
           Complete
         </button>

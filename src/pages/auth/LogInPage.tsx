@@ -35,7 +35,7 @@ function LogInPage() {
     e.preventDefault();
     const success = await setLogin(form);
     if (success) {
-      navigate("/dashboard");
+      navigate("/tasks");
     }
   };
   const handleShowPassword = () => {
