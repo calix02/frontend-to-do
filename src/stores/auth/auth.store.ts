@@ -6,6 +6,7 @@ import { create } from "zustand";
 
 export const useAuthStore = create<AuthStoreType>((set) => ({
   loading: false,
+  user: null,
   setRegister: async (data) => {
     set({
       loading: true,
@@ -27,9 +28,13 @@ export const useAuthStore = create<AuthStoreType>((set) => ({
   setLogin: async (data) => {
     set({
       loading: true,
+      
     });
     try {
       const response = await logInApi(data);
+      set({
+        user:response.account,
+      });
       toast.success(response.message);
       return true;
     } catch (error) {
@@ -44,6 +49,7 @@ export const useAuthStore = create<AuthStoreType>((set) => ({
   logout: async () => {
     set({
       loading: true,
+      user: null,
     });
     try {
       const response = await logOutApi();

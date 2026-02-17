@@ -8,6 +8,7 @@ import SignUpPage from "./pages/auth/SignUpPage";
 import Dashboard from "./pages/general/Dashboard";
 import Tasks from "./pages/general/TasksPage";
 import LandingPage from "./pages/splashscreen/LandingPage";
+import ProtectedRoute from "./pages/general/components/ProtectedRoute";
 function App() {
   const router = createBrowserRouter([
     {
@@ -24,11 +25,19 @@ function App() {
     },
     {
       path: "/dashboard",
-      Component: Dashboard,
+      Component: () =>(
+        <ProtectedRoute>
+          <Dashboard/>
+        </ProtectedRoute>
+      ), 
     },
     {
       path: "/tasks",
-      Component: Tasks,
+      Component: () =>(
+        <ProtectedRoute>
+          <Tasks/>
+        </ProtectedRoute>
+      ),
     },
   ]);
 

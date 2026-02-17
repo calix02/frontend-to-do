@@ -4,8 +4,10 @@ import { useState } from "react";
 // Components
 import DashboardCard from "./components/DashboardCard";
 import Header from "./components/Header";
+import { useAuthStore } from "@/stores/auth/auth.store";
 
 function Dashboard() {
+  const user = useAuthStore((state) => state.user);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const handleMenu = () => {
     setShowMenu(!showMenu);
@@ -15,7 +17,7 @@ function Dashboard() {
       <Header toggle={handleMenu} showMenu={showMenu} />
       <div className="mt-25 w-full pt-8 px-5">
         <h1 className="poppins-semibold fade-left text-xl text-[#242423]">
-          Welcome Mark Alvarado!
+          Welcome {user?.name}!
         </h1>
         <div className="mt-5 fade-in grid grid-cols-2 items-center gap-3">
           <DashboardCard
