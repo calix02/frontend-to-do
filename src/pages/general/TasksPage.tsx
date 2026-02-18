@@ -39,8 +39,37 @@ function Tasks() {
   const [addTask, setAddTask] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [updateTask, setUpdateTask] = useState<boolean>(false);
+const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   const user = useAuthStore((state) => state.user);
+
+  const fetchAllTasks = async () => {
+  if (!user?._id) return;
+
+  try {
+    setLoading(true);
+
+    const [completedTasks, inProgressTasks, notStartedTasks] =
+      await Promise.all([
+        getCompletedTask(user._id),
+        getInProgressTask(user._id),
+        getNotStarted(user._id),
+      ]);
+
+    setComplete(completedTasks);
+    setInProgress(inProgressTasks);
+    setNotStarted(notStartedTasks);
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+useEffect(() => {
+  fetchAllTasks();
+},[user?._id]);
+
+
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -95,9 +124,10 @@ function Tasks() {
 
   if (loading) return <p>Loading...</p>;
 
-  const handleUpdate = () => {
-    setUpdateTask(true);
-  };
+  const handleUpdate = (task: Task) => {
+  setSelectedTask(task);
+  setUpdateTask(true);
+};
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -122,13 +152,23 @@ function Tasks() {
   };
   const handleClose = () => {
     setAddTask(false);
+    setUpdateTask(false);
   };
 
   return (
     <>
       <div className="w-screen h-screen  bg-white">
-        {addTask && <AddTaskModal handleClose={handleClose} />}
-        {updateTask && <UpdateTaskModal handleClose={handleClose} />}
+        {addTask && <AddTaskModal refreshTask={fetchAllTasks} handleClose={handleClose} />}
+        {updateTask && selectedTask && (
+  <UpdateTaskModal
+  taskId={selectedTask._id}
+  currentTask={selectedTask.task}
+  currentStatus={selectedTask.status}
+  handleClose={handleClose}
+  refreshTasks={fetchAllTasks}
+/>
+
+)}
 
         <Header toggle={handleMenu} showMenu={showMenu} />
         <div className="mt-25 w-full pt-8 px-5">
@@ -195,9 +235,9 @@ function Tasks() {
                 ) : (
                   inProgress.map((task) => (
                     <InProgressTask
-                      handleUpdate={handleUpdate}
                       key={task._id}
                       task={task.task}
+                      handleUpdate={() => handleUpdate(task)}
                     />
                   ))
                 )}
@@ -212,7 +252,12 @@ function Tasks() {
                   </div>
                 ) : (
                   notStarted.map((task) => (
-                    <NotStartedTask key={task._id} task={task.task} />
+                     <NotStartedTask
+                      key={task._id}
+                      task={task.task}
+                      handleUpdate={() => handleUpdate(task)}
+                      handleClose={handleClose}
+                    />
                   ))
                 )}
               </div>

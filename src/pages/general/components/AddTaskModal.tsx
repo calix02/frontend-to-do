@@ -11,8 +11,9 @@ import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5";
 type ModalProps = {
   handleClose: () => void;
+  refreshTask: () => Promise<void>
 };
-function AddTaskModal({ handleClose }: ModalProps) {
+function AddTaskModal({ handleClose , refreshTask}: ModalProps) {
   const [task, setTask] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -34,6 +35,7 @@ function AddTaskModal({ handleClose }: ModalProps) {
       setLoading(true);
       await addTask(task, user._id);
       toast.success("Task added!");
+      refreshTask();
       setTask("");
       handleClose();
     } catch (error) {
