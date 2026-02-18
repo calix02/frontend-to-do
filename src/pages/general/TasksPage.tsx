@@ -1,69 +1,100 @@
 // Libraries
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+// Axios
+import { getCompletedTask } from "@/axios/getcompleted";
+import { getInProgressTask } from "@/axios/getinprogress";
 
 // Components
 import AddTaskModal from "./components/AddTaskModal";
 import CompletedTask from "./components/CompletedTask";
 import Header from "./components/Header";
-import InProgressTask from "./components/InProgressTask";
-import NotStartedTask from "./components/NotStartedTask";
 import UpdateTaskModal from "./components/UpdateTaskModal";
 
 // Icons
+import { BiConfused } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa6";
 import { MdAdd, MdOutlineAssignment } from "react-icons/md";
 
-import { MdOutlineAccessTime } from "react-icons/md";
+import { getNotStarted } from "@/axios/getnotstarted";
 import { useAuthStore } from "@/stores/auth/auth.store";
+import { MdOutlineAccessTime } from "react-icons/md";
+import InProgressTask from "./components/InProgressTask";
+import NotStartedTask from "./components/NotStartedTask";
 
-function CompletedContent() {
-  type Task = {
-    task: string;
-    date: string;
-  };
-  const tasks: Task[] = [
-    {
-      task: "Take a  ratione voluptatibus eveniet sunt, perspiciatis cumque labore fugiat molestias, harum necessitatibus dignissimos ea quis sit quia aut ullam assumenda..",
-      date: "02/10/2026",
-    },
-  ];
-  return (
-    <div className="w-full flex flex-col gap-3 fade-up">
-      {tasks.map((t, id) => (
-        <CompletedTask key={id} task={t.task} date={t.date} />
-      ))}
-    </div>
-  );
+interface Task {
+  _id: string;
+  task: string;
+  status: string;
 }
-
-function NotStartedContent() {
-  return (
-    <div className="w-full lg:grid lg:grid-cols-3 lg:gap-5 lg:px-10 flex flex-col gap-3 fade-up">
-      <NotStartedTask
-        task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        date="02/13/2026"
-      />
-      <NotStartedTask
-        task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        date="02/13/2026"
-      />
-      <NotStartedTask
-        task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        date="02/13/2026"
-      />
-    </div>
-  );
-}
-
 function Tasks() {
+  const [complete, setComplete] = useState<Task[]>([]);
+  const [inProgress, setInProgress] = useState<Task[]>([]);
+  const [notStarted, setNotStarted] = useState<Task[]>([]);
+
+  const [loading, setLoading] = useState(true);
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
-  const [showInProgress, setInProgress] = useState<boolean>(false);
+  const [showInProgress, setShowInProgress] = useState<boolean>(false);
   const [showNotStarted, setShowNotStarted] = useState<boolean>(true);
   const [addTask, setAddTask] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [updateTask, setUpdateTask] = useState<boolean>(false);
-    const user = useAuthStore((state) => state.user);
-  
+
+  const user = useAuthStore((state) => state.user);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      if (!user?._id) return;
+
+      try {
+        const tasks = await getCompletedTask(user._id);
+        setComplete(tasks);
+      } catch (error) {
+        console.error("Error fetching completed tasks:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, [user?._id]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      if (!user?._id) return;
+
+      try {
+        const tasks = await getInProgressTask(user._id);
+        setInProgress(tasks);
+      } catch (error) {
+        console.error("Error fetching in progress tasks:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, [user?._id]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      if (!user?._id) return;
+
+      try {
+        const tasks = await getNotStarted(user._id);
+        setNotStarted(tasks);
+      } catch (error) {
+        console.error("Error fetching in get not started tasks:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, [user?._id]);
+
+  if (loading) return <p>Loading...</p>;
+
   const handleUpdate = () => {
     setUpdateTask(true);
   };
@@ -74,16 +105,16 @@ function Tasks() {
   const handleInProgress = () => {
     setShowCompleted(false);
     setShowNotStarted(false);
-    setInProgress(true);
+    setShowInProgress(true);
   };
   const handleCompleted = () => {
     setShowCompleted(true);
-    setInProgress(false);
+    setShowInProgress(false);
     setShowNotStarted(false);
   };
   const handleNotStarted = () => {
     setShowCompleted(false);
-    setInProgress(false);
+    setShowInProgress(false);
     setShowNotStarted(true);
   };
   const handleAddTask = () => {
@@ -105,35 +136,34 @@ function Tasks() {
             <h1 className="poppins-semibold fade-left text-xl text-[#242423]">
               Welcome {user?.name}!
             </h1>
-           
           </div>
-          <div className="w-full flex justify-end px-5">
-             <button
+          <div className="w-full flex justify-end px-2">
+            <button
               onClick={handleAddTask}
-              className={`flex items-center fade-right gap-1 bg-[#3DC64540]   w-30 h-8 justify-center poppins-semibold text-sm rounded-md`}
+              className={`flex items-center fade-right gap-1 bg-[#3DC64540] shadow-[2px_2px_2px_gray]   w-30 h-8 justify-center poppins-semibold text-sm rounded-full`}
             >
-              <MdAdd />
+              <MdAdd className="text-xl" />
               Add Task
             </button>
           </div>
-          <div className="mt-3 fade-in poppins-semibold text-sm flex gap-3">
+          <div className="mt-3 fade-in poppins-semibold text-sm text-gray-700 flex gap-3">
             <button
               onClick={handleCompleted}
-              className={`flex items-center border-design justify-center gap-1  px-2 py-1 border shadow-md ${showCompleted ? "bg-[#3DC64540]" : "bg-white"} `}
+              className={`flex items-center text-[#3DC64590] justify-center gap-1    px-2 py-1 border-b-2 rounded-2xl border-gray-500 ${showCompleted ? "bg-[#3DC64540] text-gray-700" : "bg-white"} `}
             >
               <FaCheck />
               Completed
             </button>
             <button
               onClick={handleInProgress}
-              className={`flex items-center justify-center gap-1 border px-2 py-1 border-design shadow-md ${showInProgress ? "bg-[#FF813D40]" : "bg-white"}`}
+              className={`flex items-center justify-center text-[#FF813D80] gap-1 border-b-2 rounded-2xl border-gray-500 px-2 py-1  shadow-md ${showInProgress ? "bg-[#FF813D40] text-gray-700" : "bg-white"}`}
             >
               <MdOutlineAccessTime />
               In Progress
             </button>
             <button
               onClick={handleNotStarted}
-              className={`flex items-center justify-center gap-1 border px-2 py-1 border-design shadow-md ${showNotStarted ? "bg-[#E3525240]" : "bg-white"}`}
+              className={`flex items-center justify-center gap-1 border-b-2 px-2 py-1 text-[#E3525280]  rounded-2xl border-gray-500 shadow-md ${showNotStarted ? "bg-[#E3525240] text-gray-700" : "bg-white"}`}
             >
               <MdOutlineAssignment />
               Not Started
@@ -141,17 +171,52 @@ function Tasks() {
           </div>
 
           <div className="mt-5 flex flex-col items-center gap-3">
-            {showCompleted && CompletedContent()}
-            {showInProgress && (
-              <div className="w-full flex flex-col gap-3 fade-up">
-                <InProgressTask
-                  handleUpdate={handleUpdate}
-                  task="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                  date="02/13/2026"
-                />
+            {showCompleted && (
+              <div className="w-full  max-h-155 overflow-x-scroll pb-5 flex flex-col gap-3 fade-up">
+                {complete.length === 0 ? (
+                  <div className="w-full h-20  mt-8 poppins-semibold text-gray-400 flex flex-col gap-2 justify-center items-center ">
+                    <BiConfused className="text-6xl" />
+                    <p>No Task Found!</p>
+                  </div>
+                ) : (
+                  complete.map((task) => (
+                    <CompletedTask key={task._id} task={task.task} />
+                  ))
+                )}
               </div>
             )}
-            {showNotStarted && NotStartedContent()}
+            {showInProgress && (
+              <div className="w-full  max-h-155 overflow-x-scroll pb-5 flex flex-col gap-3 fade-up">
+                {inProgress.length === 0 ? (
+                  <div className="w-full h-20  mt-8 poppins-semibold text-gray-400 flex flex-col gap-2 justify-center items-center ">
+                    <BiConfused className="text-6xl" />
+                    <p>No Task Found!</p>
+                  </div>
+                ) : (
+                  inProgress.map((task) => (
+                    <InProgressTask
+                      handleUpdate={handleUpdate}
+                      key={task._id}
+                      task={task.task}
+                    />
+                  ))
+                )}
+              </div>
+            )}
+            {showNotStarted && (
+              <div className="w-full  max-h-155 overflow-x-scroll pb-5 flex flex-col gap-3 fade-up">
+                {notStarted.length === 0 ? (
+                  <div className="w-full h-20  mt-8 poppins-semibold text-gray-400 flex flex-col gap-2 justify-center items-center ">
+                    <BiConfused className="text-6xl" />
+                    <p>No Task Found!</p>
+                  </div>
+                ) : (
+                  notStarted.map((task) => (
+                    <NotStartedTask key={task._id} task={task.task} />
+                  ))
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
