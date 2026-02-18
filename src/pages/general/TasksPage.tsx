@@ -2,8 +2,10 @@
 import { useEffect, useState } from "react";
 
 // Axios
+import { deleteTask } from "@/axios/delete";
 import { getCompletedTask } from "@/axios/getcompleted";
 import { getInProgressTask } from "@/axios/getinprogress";
+import { getNotStarted } from "@/axios/getnotstarted";
 
 // Components
 import AddTaskModal from "./components/AddTaskModal";
@@ -16,7 +18,6 @@ import { BiConfused } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa6";
 import { MdAdd, MdOutlineAssignment } from "react-icons/md";
 
-import { getNotStarted } from "@/axios/getnotstarted";
 import { useAuthStore } from "@/stores/auth/auth.store";
 import { MdOutlineAccessTime } from "react-icons/md";
 import InProgressTask from "./components/InProgressTask";
@@ -39,95 +40,58 @@ function Tasks() {
   const [addTask, setAddTask] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [updateTask, setUpdateTask] = useState<boolean>(false);
-const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   const user = useAuthStore((state) => state.user);
 
   const fetchAllTasks = async () => {
-  if (!user?._id) return;
+    if (!user?._id) return;
 
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const [completedTasks, inProgressTasks, notStartedTasks] =
-      await Promise.all([
-        getCompletedTask(user._id),
-        getInProgressTask(user._id),
-        getNotStarted(user._id),
-      ]);
+      const [completedTasks, inProgressTasks, notStartedTasks] =
+        await Promise.all([
+          getCompletedTask(user._id),
+          getInProgressTask(user._id),
+          getNotStarted(user._id),
+        ]);
 
-    setComplete(completedTasks);
-    setInProgress(inProgressTasks);
-    setNotStarted(notStartedTasks);
-  } catch (error) {
-    console.error("Error fetching tasks:", error);
-  } finally {
-    setLoading(false);
-  }
-};
-useEffect(() => {
-  fetchAllTasks();
-},[user?._id]);
-
-
-
+      setComplete(completedTasks);
+      setInProgress(inProgressTasks);
+      setNotStarted(notStartedTasks);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchTasks = async () => {
-      if (!user?._id) return;
-
-      try {
-        const tasks = await getCompletedTask(user._id);
-        setComplete(tasks);
-      } catch (error) {
-        console.error("Error fetching completed tasks:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTasks();
-  }, [user?._id]);
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      if (!user?._id) return;
-
-      try {
-        const tasks = await getInProgressTask(user._id);
-        setInProgress(tasks);
-      } catch (error) {
-        console.error("Error fetching in progress tasks:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTasks();
-  }, [user?._id]);
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      if (!user?._id) return;
-
-      try {
-        const tasks = await getNotStarted(user._id);
-        setNotStarted(tasks);
-      } catch (error) {
-        console.error("Error fetching in get not started tasks:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTasks();
+    fetchAllTasks();
   }, [user?._id]);
 
   if (loading) return <p>Loading...</p>;
 
+  const handleDeleteTask = async (id: string) => {
+    try {
+      await deleteTask(id);
+
+      // Option A: refetch all tasks (simplest)
+      fetchAllTasks();
+
+      // Option B: optimistic update (faster UI)
+      // setComplete(prev => prev.filter(t => t._id !== id));
+      // setInProgress(prev => prev.filter(t => t._id !== id));
+      // setNotStarted(prev => prev.filter(t => t._id !== id));
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
   const handleUpdate = (task: Task) => {
-  setSelectedTask(task);
-  setUpdateTask(true);
-};
+    setSelectedTask(task);
+    setUpdateTask(true);
+  };
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -157,18 +121,19 @@ useEffect(() => {
 
   return (
     <>
-      <div className="w-screen h-screen  bg-white">
-        {addTask && <AddTaskModal refreshTask={fetchAllTasks} handleClose={handleClose} />}
+      <div className="w-screen h-screen bg-white">
+        {addTask && (
+          <AddTaskModal refreshTask={fetchAllTasks} handleClose={handleClose} />
+        )}
         {updateTask && selectedTask && (
-  <UpdateTaskModal
-  taskId={selectedTask._id}
-  currentTask={selectedTask.task}
-  currentStatus={selectedTask.status}
-  handleClose={handleClose}
-  refreshTasks={fetchAllTasks}
-/>
-
-)}
+          <UpdateTaskModal
+            taskId={selectedTask._id}
+            currentTask={selectedTask.task}
+            currentStatus={selectedTask.status}
+            handleClose={handleClose}
+            refreshTasks={fetchAllTasks}
+          />
+        )}
 
         <Header toggle={handleMenu} showMenu={showMenu} />
         <div className="mt-25 w-full pt-8 px-5">
@@ -252,11 +217,11 @@ useEffect(() => {
                   </div>
                 ) : (
                   notStarted.map((task) => (
-                     <NotStartedTask
+                    <NotStartedTask
                       key={task._id}
                       task={task.task}
                       handleUpdate={() => handleUpdate(task)}
-                      handleClose={handleClose}
+                      handleDelete={() => handleDeleteTask(task._id)}
                     />
                   ))
                 )}

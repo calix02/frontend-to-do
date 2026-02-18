@@ -63,7 +63,7 @@ function LogInPage() {
                 <div className="relative">
                   <FaRegEnvelope className="absolute left-2 top-1/2 text-lg -translate-y-1/2" />
                   <input
-                    type="email"
+                    type="text"
                     name="email"
                     onChange={handleChange}
                     className="peer border-b px-8 py-3 focus:outline-none focus:ring-0 border-black w-full"

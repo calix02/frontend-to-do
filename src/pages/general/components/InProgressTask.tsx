@@ -1,6 +1,5 @@
 // Icons
 import { FaEdit } from "react-icons/fa";
-import { FaCheck } from "react-icons/fa6";
 import { IoMdTime } from "react-icons/io";
 import { RiDeleteBin5Line } from "react-icons/ri";
 
@@ -17,6 +16,8 @@ function InProgressTask({ task, handleUpdate }: TaskProps) {
           In Progress
         </p>
         <div className="flex items-center justify-end gap-2  w-full">
+          <FaEdit onClick={handleUpdate} className="text-[#0D4861] text-xl" />
+
           <RiDeleteBin5Line className=" text-xl text-[#E35252] right-3 top-3" />
         </div>
       </div>
@@ -24,19 +25,6 @@ function InProgressTask({ task, handleUpdate }: TaskProps) {
       <p className="poppins-regular text-[#242423] text-sm mt-2 text-justify px-2 indent-3">
         {task}
       </p>
-      <div className="flex gap-3 mt-3 poppins-semibold text-sm">
-        <button className="w-full h-10 flex justify-center items-center gap-2 border-design bg-[#3DC64535]">
-          <FaCheck className="text-[#3DC645] text-xl" />
-          Complete
-        </button>
-        <button
-          onClick={handleUpdate}
-          className="w-full h-10 flex gap-2 items-center justify-center border-design bg-[#3D9DC635]"
-        >
-          <FaEdit className="text-[#0D4861] text-xl" />
-          <span>Update</span>
-        </button>
-      </div>
     </div>
   );
 }
