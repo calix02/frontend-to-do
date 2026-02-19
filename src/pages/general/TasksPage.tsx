@@ -150,20 +150,19 @@ function Tasks() {
 
         <Header toggle={handleMenu} showMenu={showMenu} />
         <div className="mt-25 w-full pt-8 px-5">
-          <div className="flex justify-between">
+          <div className="flex justify-between px-2">
             <h1 className="poppins-semibold fade-left text-xl text-[#242423]">
-              Welcome {user?.name}!
+              Manage your Task!
             </h1>
-          </div>
-          <div className="w-full flex justify-end px-2">
             <button
               onClick={handleAddTask}
-              className={`flex items-center fade-right gap-1 bg-[#3DC64540] shadow-[2px_2px_2px_gray]   w-30 h-8 justify-center poppins-semibold text-sm rounded-full`}
+              className={`flex items-center fade-right gap-1 bg-[#3DC64540] shadow-[2px_2px_2px_gray]   w-30 h-8 justify-center poppins-semibold text-sm rounded-md`}
             >
               <MdAdd className="text-xl" />
               Add Task
             </button>
           </div>
+
           <div className="mt-3 fade-in poppins-semibold text-sm text-gray-700 flex gap-3">
             <button
               onClick={handleCompleted}
@@ -198,7 +197,11 @@ function Tasks() {
                   </div>
                 ) : (
                   complete.map((task) => (
-                    <CompletedTask key={task._id} task={task.task} />
+                    <CompletedTask
+                      key={task._id}
+                      task={task.task}
+                      handleDelete={() => openDeleteModal(task._id)}
+                    />
                   ))
                 )}
               </div>
