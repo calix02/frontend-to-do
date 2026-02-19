@@ -1,6 +1,6 @@
 // ProtectedRoute.tsx
-import { Navigate } from "react-router";
 import { useAuthStore } from "@/stores/auth/auth.store";
+import { Navigate } from "react-router";
 
 type Props = {
   children: React.ReactNode;

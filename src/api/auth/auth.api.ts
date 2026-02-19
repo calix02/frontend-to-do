@@ -9,7 +9,7 @@ export const logInApi = async (data: Partial<AccountType>) => {
   const response = await axiosInstance.post("/auth/login", data);
   const { token, account } = response.data;
   localStorage.setItem("token", token);
-  return account;
+  return { account, token };
 };
 export const logOutApi = async () => {
   await axiosInstance.post("/auth/logout");

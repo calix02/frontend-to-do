@@ -1,9 +1,9 @@
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-import type { AuthStoreType } from "@/types/auth/auth.type";
 import { logInApi, logOutApi, registerApi } from "@/api/auth/auth.api";
+import type { AuthStoreType } from "@/types/auth/auth.type";
 import { showError } from "@/utils/error/error.utils";
 import toast from "react-hot-toast";
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 const noopStorage = {
   getItem: () => null,
@@ -66,14 +66,14 @@ export const useAuthStore = create<AuthStoreType>()(
     {
       name: "auth-storage",
       storage: createJSONStorage(() =>
-        typeof window !== "undefined" ? localStorage : noopStorage
+        typeof window !== "undefined" ? localStorage : noopStorage,
       ),
       partialize: (state) => ({ user: state.user, token: state.token }),
       onRehydrateStorage: () => (state) => {
         if (state) state.hydrated = true; // mark hydrated
       },
-    }
-  )
+    },
+  ),
 );
 
 // ✅ Hydration-safe selector

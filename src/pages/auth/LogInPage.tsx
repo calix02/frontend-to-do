@@ -42,7 +42,7 @@ function LogInPage() {
 
       setTimeout(() => {
         navigate("/tasks");
-      }, 3000); // 2 seconds delay
+      }, 3000);
     }
   };
 
