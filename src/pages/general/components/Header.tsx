@@ -1,5 +1,5 @@
 // Libraries
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 //Components
 import LogoutModal from "./LogoutModal";
@@ -10,16 +10,16 @@ import AppLogo from "@/assets/app-logo.svg";
 // Icons
 import { FaRegUser, FaTasks } from "react-icons/fa";
 import { IoClose, IoMenu } from "react-icons/io5";
-import { MdLogout} from "react-icons/md";
+import { MdLogout } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 type HeaderProps = {
   showMenu: boolean;
   toggle: () => void;
 };
 const Header = ({ showMenu, toggle }: HeaderProps) => {
-const [logout, setLogout] = useState(false);
+  const [logout, setLogout] = useState(false);
   const navigate = useNavigate();
-   
+
   useEffect(() => {
     if (logout) {
       setTimeout(() => {
@@ -30,7 +30,7 @@ const [logout, setLogout] = useState(false);
 
   return (
     <>
-    {logout && <LogoutModal/>}
+      {logout && <LogoutModal />}
       <div
         className={`${showMenu ? "rounded-none shadow-none" : "rounded-2xl"} w-screen h-25 shadow-md flex fixed bg-white z-20 top-0 justify-start gap-3 items-center px-5`}
       >

@@ -19,6 +19,7 @@ function LogInPage() {
   const loading = useAuthStore((state) => state.loading);
   const setLogin = useAuthStore((state) => state.setLogin);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const [form, setForm] = useState<Partial<AccountType>>({
     email: "",
@@ -33,18 +34,25 @@ function LogInPage() {
 
   const submitForm = async (e: FormEvent) => {
     e.preventDefault();
+
     const success = await setLogin(form);
+
     if (success) {
-      navigate("/tasks");
+      setShowAuthModal(true);
+
+      setTimeout(() => {
+        navigate("/tasks");
+      }, 3000); // 2 seconds delay
     }
   };
+
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   return (
     <>
-      {loading && <AuthenticatedModal />}
+      {showAuthModal && <AuthenticatedModal />}
 
       <div className="w-screen h-screen bg-linear-to-br from-[#FFFFFF] to-[#FFE7B4] flex  justify-center items-center relative">
         <img
