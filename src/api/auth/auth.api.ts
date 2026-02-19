@@ -7,9 +7,13 @@ export const registerApi = async (data: Partial<AccountType>) => {
 };
 export const logInApi = async (data: Partial<AccountType>) => {
   const response = await axiosInstance.post("/auth/login", data);
-  return response.data;
+  const { token, account } = response.data;
+  localStorage.setItem("token", token);
+  return account;
 };
 export const logOutApi = async () => {
-  const response = await axiosInstance.post("/auth/logout");
-  return response.data;
+  await axiosInstance.post("/auth/logout");
+
+  // 🔐 remove token
+  localStorage.removeItem("token");
 };

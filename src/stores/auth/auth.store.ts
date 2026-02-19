@@ -34,14 +34,14 @@ export const useAuthStore = create<AuthStoreType>()(
       setLogin: async (data) => {
         set({ loading: true });
         try {
-          const response = await logInApi(data);
+          const account = await logInApi(data);
 
           set({
-            user: response.account,
+            user: account,
             loading: false,
           });
 
-          toast.success(response.message);
+          toast.success("Login successfully");
           return true;
         } catch (error) {
           showError(error);
