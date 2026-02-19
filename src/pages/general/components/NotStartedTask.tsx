@@ -17,11 +17,11 @@ function NotStartedTask({ task, handleUpdate, handleDelete }: TaskProps) {
           Not Started
         </p>
         <div className="flex items-center justify-end gap-2  w-full">
-          <FaEdit onClick={handleUpdate} className="text-[#0D4861] text-xl" />
+          <FaEdit onClick={handleUpdate} className="text-[#0D4861] text-lg" />
 
           <RiDeleteBin5Line
             onClick={handleDelete}
-            className=" text-xl text-[#E35252] right-3 top-3"
+            className=" text-xl text-[#E35252] "
           />
         </div>
       </div>

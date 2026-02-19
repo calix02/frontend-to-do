@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 
 // Axios
-import { deleteTask } from "@/axios/delete";
 import { getCompletedTask } from "@/axios/getcompleted";
 import { getInProgressTask } from "@/axios/getinprogress";
 import { getNotStarted } from "@/axios/getnotstarted";
@@ -18,8 +17,10 @@ import { BiConfused } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa6";
 import { MdAdd, MdOutlineAssignment } from "react-icons/md";
 
+import { deleteTask } from "@/axios/delete";
 import { useAuthStore } from "@/stores/auth/auth.store";
 import { MdOutlineAccessTime } from "react-icons/md";
+import DeleteTaskModal from "./components/DeleteTaskModal";
 import InProgressTask from "./components/InProgressTask";
 import NotStartedTask from "./components/NotStartedTask";
 
@@ -43,6 +44,28 @@ function Tasks() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   const user = useAuthStore((state) => state.user);
+
+  const [showDelete, setShowDelete] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
+
+  const handleDeleteTask = async () => {
+    if (!taskToDelete) return;
+
+    try {
+      await deleteTask(taskToDelete);
+
+      fetchAllTasks(); // refresh list
+      setShowDelete(false);
+      setTaskToDelete(null);
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
+  const openDeleteModal = (id: string) => {
+    setTaskToDelete(id);
+    setShowDelete(true);
+  };
 
   const fetchAllTasks = async () => {
     if (!user?._id) return;
@@ -71,22 +94,6 @@ function Tasks() {
   }, [user?._id]);
 
   if (loading) return <p>Loading...</p>;
-
-  const handleDeleteTask = async (id: string) => {
-    try {
-      await deleteTask(id);
-
-      // Option A: refetch all tasks (simplest)
-      fetchAllTasks();
-
-      // Option B: optimistic update (faster UI)
-      // setComplete(prev => prev.filter(t => t._id !== id));
-      // setInProgress(prev => prev.filter(t => t._id !== id));
-      // setNotStarted(prev => prev.filter(t => t._id !== id));
-    } catch (error) {
-      console.error("Error deleting task:", error);
-    }
-  };
 
   const handleUpdate = (task: Task) => {
     setSelectedTask(task);
@@ -132,6 +139,12 @@ function Tasks() {
             currentStatus={selectedTask.status}
             handleClose={handleClose}
             refreshTasks={fetchAllTasks}
+          />
+        )}
+        {showDelete && (
+          <DeleteTaskModal
+            handleClose={() => setShowDelete(false)}
+            onConfirm={handleDeleteTask}
           />
         )}
 
@@ -203,6 +216,7 @@ function Tasks() {
                       key={task._id}
                       task={task.task}
                       handleUpdate={() => handleUpdate(task)}
+                      handleDelete={() => openDeleteModal(task._id)}
                     />
                   ))
                 )}
@@ -221,7 +235,7 @@ function Tasks() {
                       key={task._id}
                       task={task.task}
                       handleUpdate={() => handleUpdate(task)}
-                      handleDelete={() => handleDeleteTask(task._id)}
+                      handleDelete={() => openDeleteModal(task._id)}
                     />
                   ))
                 )}

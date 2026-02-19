@@ -11,9 +11,9 @@ import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5";
 type ModalProps = {
   handleClose: () => void;
-  refreshTask: () => Promise<void>
+  refreshTask: () => Promise<void>;
 };
-function AddTaskModal({ handleClose , refreshTask}: ModalProps) {
+function AddTaskModal({ handleClose, refreshTask }: ModalProps) {
   const [task, setTask] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -58,10 +58,13 @@ function AddTaskModal({ handleClose , refreshTask}: ModalProps) {
           className="w-20 absolute top-1/4 opacity-80 -translate-y-1/2"
           alt="App Logo"
         />
+
         <h1 className="playfair-bold text-3xl z-10 mt-10">App To Do</h1>
         <form onSubmit={handleSubmit} className="w-full px-3 mt-3">
+          <p className="text-sm poppins-regular px-2">Add your task here</p>
+
           <textarea
-            className="w-full h-20 border border-[#e0e0e0] px-3 py-2 flex items-start rounded-lg shadow-md"
+            className="w-full h-20 borderpoppins border-[#e0e0e0] px-3 py-2 poppins-regular text-sm flex items-start rounded-lg shadow-md"
             name=""
             id=""
             value={task}

@@ -8,9 +8,9 @@ import { FaQuestionCircle } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 type ModalProps = {
   handleClose: () => void;
-  handleDelete: () => void;
+  onConfirm: () => void;
 };
-function DeleteTaskModal({ handleClose, handleDelete }: ModalProps) {
+function DeleteTaskModal({ handleClose, onConfirm }: ModalProps) {
   return (
     <div className="bg-[#0000006e] fade-in inset-0 flex justify-center fixed  z-30 items-center">
       <div className="w-70 h-65  rounded-md shadow-md bg-white flex flex-col justify-center relative items-center">
@@ -30,12 +30,17 @@ function DeleteTaskModal({ handleClose, handleDelete }: ModalProps) {
         </p>
         <div className="flex w-full px-3 gap-3 text-sm poppins-semibold mt-5">
           <button
-            onClick={handleDelete}
+            onClick={onConfirm}
             className="w-full h-10 rounded-2xl bg-[#A5491B] text-white shadow-md"
           >
             Yes
           </button>
-          <button className="w-full h-10 rounded-2xl shadow-md">Cancel</button>
+          <button
+            onClick={handleClose}
+            className="w-full h-10 rounded-2xl shadow-md"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>
