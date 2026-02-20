@@ -20,7 +20,6 @@ function LogInPage() {
   const setLogin = useAuthStore((state) => state.setLogin);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
-
   const [form, setForm] = useState<Partial<AccountType>>({
     email: "",
     password: "",
@@ -53,7 +52,6 @@ function LogInPage() {
   return (
     <>
       {showAuthModal && <AuthenticatedModal />}
-
       <div className="w-screen h-screen bg-linear-to-br from-[#FFFFFF] to-[#FFE7B4] flex  justify-center items-center relative">
         <img
           src={AppLogo}
