@@ -128,7 +128,7 @@ function Tasks() {
 
   return (
     <>
-      <div className="w-screen h-screen ">
+      <div className="w-screen h-screen">
         {addTask && (
           <AddTaskModal refreshTask={fetchAllTasks} handleClose={handleClose} />
         )}

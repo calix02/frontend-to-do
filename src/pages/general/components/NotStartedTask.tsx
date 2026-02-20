@@ -26,9 +26,9 @@ function NotStartedTask({ task, handleUpdate, handleDelete }: TaskProps) {
         </div>
       </div>
 
-      <p className="poppins-regular text-[#242423] text-sm mt-2 text-justify px-2 indent-3">
+      <div className="poppins-regular text-[#242423] text-sm mt-2 text-start px-2 indent-3 ">
         {task}
-      </p>
+      </div>
     </div>
   );
 }

@@ -60,7 +60,7 @@ function UpdateTaskModal({
           <textarea
             value={task}
             onChange={(e) => setTask(e.target.value)}
-            className="w-full h-20 border border-[#e0e0e0] text-sm px-3 py-2 rounded-lg shadow-md"
+            className="w-full h-20  border text-sm px-3 py-2 rounded-lg shadow-md"
           />
           <select
             className="text-sm w-30 h-8 rounded-xl border pl-3"
@@ -68,6 +68,7 @@ function UpdateTaskModal({
             name=""
             id=""
           >
+            <option value={status}>--Status--</option>
             <option value="Not started">Not started</option>
             <option value="In progress">In progress</option>
             <option value="Completed">Completed</option>

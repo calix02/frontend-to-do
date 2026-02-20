@@ -61,12 +61,11 @@ function AddTaskModal({ handleClose, refreshTask }: ModalProps) {
 
         <h1 className="playfair-bold text-3xl z-10 mt-10">App To Do</h1>
         <form onSubmit={handleSubmit} className="w-full px-3 mt-3">
-          <p className="text-sm poppins-regular px-2">Add your task here</p>
-
           <textarea
-            className="w-full h-20 borderpoppins border-[#e0e0e0] px-3 py-2 poppins-regular text-sm flex items-start rounded-lg shadow-md"
+            className="w-full h-20 borderpoppins border px-3 py-2 poppins-regular text-sm flex items-start rounded-lg shadow-md"
             name=""
             id=""
+            placeholder="Enter your task here..."
             value={task}
             onChange={(e) => setTask(e.target.value)}
           ></textarea>

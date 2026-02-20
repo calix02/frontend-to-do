@@ -38,7 +38,6 @@ export const useAuthStore = create<AuthStoreType>()(
         try {
           const { account, token } = await logInApi(data);
           set({ user: account, token });
-          toast.success("Login successfully");
           return true;
         } catch (error) {
           showError(error);
